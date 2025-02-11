@@ -1,0 +1,16 @@
+{
+  "Comment": "Data Pipeline Step Function",
+  "StartAt": "ExtractData",
+  "States": {
+    "ExtractData": {
+      "Type": "Task",
+      "Resource": "${extract_lambda_arn}",
+      "Next": "PreprocessData"
+    },
+    "PreprocessData": {
+      "Type": "Task",
+      "Resource": "${preprocess_lambda_arn}",
+      "End": true
+    }
+  }
+}
