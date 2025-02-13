@@ -20,7 +20,7 @@ module "lambda" {
   extract_lambda_zip_path    = "lambda/extract_lambda.zip"
   preprocess_lambda_zip_path = "lambda/preprocess_lambda.zip"
   bronze_bucket_name         = "my-bronze-data-bucket-ter-serverless"
-  silver_bucket_name         = "my-silver-data-bucket-ter-serverless" # ✅ Add this line
+  silver_bucket_name         = "my-silver-data-bucket-ter-serverless"
 }
 
 
@@ -29,4 +29,13 @@ module "step_function" {
   state_machine_name    = var.state_machine_name
   extract_lambda_arn    = module.lambda.extract_lambda_arn
   preprocess_lambda_arn = module.lambda.preprocess_lambda_arn
+}
+
+module "snowflake" {
+  source = "./modules/snowflake"
+
+  snowflake_account  = var.snowflake_account
+  snowflake_user     = var.snowflake_user
+  snowflake_password = var.snowflake_password
+  snowflake_role     = var.snowflake_role
 }
