@@ -62,3 +62,14 @@ variable "snowflake_role" {
   type    = string
   default = "ACCOUNTADMIN"
 }
+
+variable "snowflake_aws_account_id" {
+  type        = string
+  description = "Snowflake's AWS account ID (find in Snowflake UI)"
+}
+
+variable "snowflake_external_id" {
+  type        = string
+  sensitive   = true
+  description = "External ID from Snowflake storage integration"
+}

@@ -23,6 +23,8 @@ module "step_function" {
 
 
 module "snowflake" {
-  source             = "./modules/snowflake"
-  silver_bucket_name = var.silver_bucket_name
+  source                   = "./modules/snowflake"
+  silver_bucket_name       = var.silver_bucket_name
+  snowflake_aws_account_id = var.snowflake_aws_account_id
+  snowflake_external_id    = var.snowflake_external_id
 }

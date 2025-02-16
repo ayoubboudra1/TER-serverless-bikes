@@ -21,18 +21,18 @@ resource "aws_iam_user_policy" "s3_access" {
   policy = data.aws_iam_policy_document.s3_access.json
 }
 
-data "aws_iam_policy_document" "s3_access" {
-  statement {
-    actions = [
-      "s3:GetObject",
-      "s3:ListBucket"
-    ]
-    resources = [
-      "arn:aws:s3:::${var.silver_bucket_name}",
-      "arn:aws:s3:::${var.silver_bucket_name}/*"
-    ]
-  }
-}
+# data "aws_iam_policy_document" "s3_access" {
+#   statement {
+#     actions = [
+#       "s3:GetObject",
+#       "s3:ListBucket"
+#     ]
+#     resources = [
+#       "arn:aws:s3:::${var.silver_bucket_name}",
+#       "arn:aws:s3:::${var.silver_bucket_name}/*"
+#     ]
+#   }
+# }
 
 resource "snowflake_database" "dwh" {
   name = "BIKE_DWH"
@@ -74,7 +74,7 @@ resource "snowflake_table" "bike_table" {
   }
   column {
     name = "last_reported"
-    type = "TIMESTAMP"
+    type = "TIMESTAMP_NTZ(9)"
   }
   column {
     name = "current_range_meters"
@@ -116,4 +116,40 @@ resource "snowflake_stage" "s3_stage" {
   name        = "S3_STAGE"
   url         = "s3://${var.silver_bucket_name}"
   credentials = "AWS_KEY_ID='${aws_iam_access_key.snowflake_user.id}' AWS_SECRET_KEY='${aws_iam_access_key.snowflake_user.secret}'"
+}
+
+# Snowflake Storage Integration
+resource "snowflake_storage_integration" "s3" {
+  name    = "S3_INTEGRATION"
+  type    = "EXTERNAL_STAGE"
+  enabled = true
+
+  storage_provider          = "S3"
+  storage_aws_role_arn      = aws_iam_role.snowflake_storage.arn
+  storage_allowed_locations = ["s3://${var.silver_bucket_name}/FreeBikeStatusData/"]
+}
+
+# Snowflake Stage using Storage Integration
+resource "snowflake_stage" "s3" {
+  database            = snowflake_database.dwh.name
+  schema              = snowflake_schema.schema.name
+  name                = "S3_STAGE"
+  url                 = "s3://${var.silver_bucket_name}/FreeBikeStatusData/"
+  storage_integration = snowflake_storage_integration.s3.name
+  file_format         = "TYPE = JSON"
+}
+
+# Snowflake Pipe with Auto-Ingest
+resource "snowflake_pipe" "bike" {
+  database    = snowflake_database.dwh.name
+  schema      = snowflake_schema.schema.name
+  name        = "BIKE_PIPE"
+  auto_ingest = true
+  integration = snowflake_storage_integration.s3.name
+
+  copy_statement = <<EOF
+    COPY INTO ${snowflake_database.dwh.name}.${snowflake_schema.schema.name}.${snowflake_table.bike_table.name}
+    FROM @${snowflake_stage.s3.name}
+    FILE_FORMAT = (TYPE = 'JSON')
+  EOF
 }
