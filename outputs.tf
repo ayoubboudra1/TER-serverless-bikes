@@ -22,3 +22,17 @@ output "state_machine_arn" {
   description = "ARN of the Step Function state machine"
   value       = module.step_function.state_machine_arn
 }
+
+
+
+output "snowflake_database" {
+  value = module.snowflake.snowflake_database
+}
+
+output "snowflake_schema" {
+  value = module.snowflake.snowflake_schema
+}
+
+output "snowflake_table" {
+  value = module.snowflake.snowflake_table
+}

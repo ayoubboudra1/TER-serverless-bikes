@@ -1,13 +1,3 @@
-terraform {
-  required_version = ">= 1.0.0"
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-}
-
 module "s3" {
   source             = "./modules/s3"
   bronze_bucket_name = var.bronze_bucket_name
@@ -31,11 +21,8 @@ module "step_function" {
   preprocess_lambda_arn = module.lambda.preprocess_lambda_arn
 }
 
-module "snowflake" {
-  source = "./modules/snowflake"
 
-  snowflake_account  = var.snowflake_account
-  snowflake_user     = var.snowflake_user
-  snowflake_password = var.snowflake_password
-  snowflake_role     = var.snowflake_role
+module "snowflake" {
+  source             = "./modules/snowflake"
+  silver_bucket_name = var.silver_bucket_name
 }

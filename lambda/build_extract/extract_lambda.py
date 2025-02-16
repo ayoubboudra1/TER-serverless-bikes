@@ -24,8 +24,8 @@ def lambda_handler(event, context):
 
     now = datetime.now()
     timestamp = int(now.timestamp())
-    folder_name = now.strftime("%Y-%m-%d")
-    file_name = now.strftime("%H:%M.json")
+    folder_name = "FreeBikeStatusData"
+    file_name = now.strftime("%Y-%m-%d %H:%M.json")
     s3_key = f"{folder_name}/{file_name}"
 
     free_bike_data = []

@@ -39,3 +39,26 @@ variable "state_machine_name" {
   type        = string
   default     = "DataPipelineStateMachine"
 }
+
+variable "snowflake_account" {
+  type = string
+}
+
+variable "snowflake_user" {
+  type = string
+}
+
+variable "snowflake_password" {
+  type      = string
+  sensitive = true
+}
+
+variable "snowflake_region" {
+  type    = string
+  default = "us-east-1"
+}
+
+variable "snowflake_role" {
+  type    = string
+  default = "ACCOUNTADMIN"
+}
