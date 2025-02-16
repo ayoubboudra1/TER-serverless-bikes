@@ -39,37 +39,75 @@ variable "state_machine_name" {
   type        = string
   default     = "DataPipelineStateMachine"
 }
-
-variable "snowflake_account" {
-  type = string
+variable "snowflake_account_name" {
+  description = "Snowflake account name (from your Snowflake URL)"
+  type        = string
 }
 
+# variable "snowflake_organization_name" {
+#   description = "Snowflake organization name"
+#   type        = string
+# }
+
 variable "snowflake_user" {
-  type = string
+  description = "Snowflake user name"
+  type        = string
 }
 
 variable "snowflake_password" {
-  type      = string
-  sensitive = true
+  description = "Snowflake password"
+  type        = string
+  sensitive   = true
 }
 
-variable "snowflake_region" {
-  type    = string
-  default = "us-east-1"
+variable "aws_access_key" {
+  description = "AWS access key (for Snowflake stage credentials)"
+  type        = string
+}
+
+variable "aws_secret_key" {
+  description = "AWS secret key (for Snowflake stage credentials)"
+  type        = string
+  sensitive   = true
+}
+
+variable "snowflake_database" {
+  description = "Snowflake database name"
+  type        = string
+  default     = "MY_DATABASE"
+}
+
+variable "snowflake_schema" {
+  description = "Snowflake schema name"
+  type        = string
+  default     = "PUBLIC"
+}
+
+variable "snowflake_table" {
+  description = "Snowflake table name for data ingestion"
+  type        = string
+  default     = "SOURCE_DATA"
+}
+
+variable "snowflake_warehouse" {
+  description = "Snowflake warehouse for running tasks"
+  type        = string
+  default     = "MY_WH"
 }
 
 variable "snowflake_role" {
-  type    = string
-  default = "ACCOUNTADMIN"
+  description = "Snowflake role for running tasks"
+  type        = string
+  default     = "ACCOUNTADMIN"
 }
 
-variable "snowflake_aws_account_id" {
+variable "snowflake_region" {
+  description = "Snowflake region"
   type        = string
-  description = "Snowflake's AWS account ID (find in Snowflake UI)"
+  default     = "us-east-1"
 }
 
-variable "snowflake_external_id" {
+variable "snowflake_organization_name" {
+  description = "Snowflake organization name"
   type        = string
-  sensitive   = true
-  description = "External ID from Snowflake storage integration"
 }

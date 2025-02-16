@@ -18,21 +18,22 @@ output "preprocess_lambda_arn" {
   value       = module.lambda.preprocess_lambda_arn
 }
 
-output "state_machine_arn" {
-  description = "ARN of the Step Function state machine"
-  value       = module.step_function.state_machine_arn
-}
-
-
-
-output "snowflake_database" {
-  value = module.snowflake.snowflake_database
-}
-
-output "snowflake_schema" {
-  value = module.snowflake.snowflake_schema
-}
-
 output "snowflake_table" {
-  value = module.snowflake.snowflake_table
+  description = "Snowflake table for ingested data"
+  value       = module.snowflake.source_data_table
+}
+
+output "historical_stage" {
+  description = "Snowflake external stage for historical data"
+  value       = module.snowflake.historical_stage
+}
+
+output "realtime_stage" {
+  description = "Snowflake external stage for realtime data"
+  value       = module.snowflake.realtime_stage
+}
+
+output "snowpipe" {
+  description = "Snowflake pipe for realtime ingestion"
+  value       = module.snowflake.snowpipe
 }

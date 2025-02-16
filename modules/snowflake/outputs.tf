@@ -1,21 +1,24 @@
-output "snowflake_database" {
-  value = snowflake_database.dwh.name
+output "source_data_table" {
+  description = "Snowflake table for ingested data"
+  value       = snowflake_table.source_data.name
 }
 
-output "snowflake_schema" {
-  value = snowflake_schema.schema.name
+output "historical_stage" {
+  description = "Snowflake external stage for historical data"
+  value       = snowflake_stage.historical_stage.name
 }
 
-output "snowflake_table" {
-  value = snowflake_table.bike_table.name
+output "realtime_stage" {
+  description = "Snowflake external stage for realtime data"
+  value       = snowflake_stage.realtime_stage.name
 }
 
-output "s3_access_key" {
-  value     = aws_iam_access_key.snowflake_user.id
-  sensitive = true
+output "snowpipe" {
+  description = "Snowflake pipe for realtime ingestion"
+  value       = snowflake_pipe.snowpipe.name
 }
 
-output "s3_secret_key" {
-  value     = aws_iam_access_key.snowflake_user.secret
-  sensitive = true
+output "historical_copy_task" {
+  description = "Scheduled task for copying historical data"
+  value       = snowflake_task.historical_copy.name
 }

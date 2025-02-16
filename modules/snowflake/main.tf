@@ -1,52 +1,31 @@
 terraform {
   required_providers {
     snowflake = {
-      source  = "Snowflake-Labs/snowflake"
-      version = "~> 0.87.0"
+      source = "Snowflake-Labs/snowflake"
+      #   version = "~> 0.87.1"
     }
   }
+
+  # Enable preview features
+
 }
 
-resource "aws_iam_user" "snowflake_user" {
-  name = "snowflake-s3-user"
+
+resource "snowflake_file_format" "json_format" {
+  name              = "MY_JSON_FORMAT"
+  database          = var.snowflake_database
+  schema            = var.snowflake_schema
+  format_type       = "JSON"
+  strip_outer_array = true
 }
 
-resource "aws_iam_access_key" "snowflake_user" {
-  user = aws_iam_user.snowflake_user.name
-}
-
-resource "aws_iam_user_policy" "s3_access" {
-  name   = "snowflake-s3-access"
-  user   = aws_iam_user.snowflake_user.name
-  policy = data.aws_iam_policy_document.s3_access.json
-}
-
-# data "aws_iam_policy_document" "s3_access" {
-#   statement {
-#     actions = [
-#       "s3:GetObject",
-#       "s3:ListBucket"
-#     ]
-#     resources = [
-#       "arn:aws:s3:::${var.silver_bucket_name}",
-#       "arn:aws:s3:::${var.silver_bucket_name}/*"
-#     ]
-#   }
-# }
-
-resource "snowflake_database" "dwh" {
-  name = "BIKE_DWH"
-}
-
-resource "snowflake_schema" "schema" {
-  database = snowflake_database.dwh.name
-  name     = "BIKE_SCHEMA"
-}
-
-resource "snowflake_table" "bike_table" {
-  database = snowflake_database.dwh.name
-  schema   = snowflake_schema.schema.name
-  name     = "BIKE_DATA"
+##############################
+# 2. Create a Table to Store Data
+##############################
+resource "snowflake_table" "source_data" {
+  name     = var.snowflake_table
+  database = var.snowflake_database
+  schema   = var.snowflake_schema
 
   column {
     name = "bike_id"
@@ -74,7 +53,7 @@ resource "snowflake_table" "bike_table" {
   }
   column {
     name = "last_reported"
-    type = "TIMESTAMP_NTZ(9)"
+    type = "TIMESTAMP_NTZ"
   }
   column {
     name = "current_range_meters"
@@ -90,7 +69,7 @@ resource "snowflake_table" "bike_table" {
   }
   column {
     name = "time"
-    type = "TIMESTAMP"
+    type = "TIMESTAMP_NTZ"
   }
   column {
     name = "country_code"
@@ -110,46 +89,76 @@ resource "snowflake_table" "bike_table" {
   }
 }
 
-resource "snowflake_stage" "s3_stage" {
-  database    = snowflake_database.dwh.name
-  schema      = snowflake_schema.schema.name
-  name        = "S3_STAGE"
-  url         = "s3://${var.silver_bucket_name}"
-  credentials = "AWS_KEY_ID='${aws_iam_access_key.snowflake_user.id}' AWS_SECRET_KEY='${aws_iam_access_key.snowflake_user.secret}'"
+##############################
+# 3. Create External Stage for Historical Data
+##############################
+resource "snowflake_stage" "historical_stage" {
+  name        = "MY_S3_STAGE"
+  database    = var.snowflake_database
+  schema      = var.snowflake_schema
+  url         = "s3://${var.silver_bucket_name}/FreeBikeStatusData/"
+  credentials = "AWS_KEY_ID='${var.aws_key}' AWS_SECRET_KEY='${var.aws_secret}'"
+  file_format = "TYPE = 'JSON'"
+
 }
 
-# Snowflake Storage Integration
-resource "snowflake_storage_integration" "s3" {
-  name    = "S3_INTEGRATION"
-  type    = "EXTERNAL_STAGE"
-  enabled = true
-
-  storage_provider          = "S3"
-  storage_aws_role_arn      = aws_iam_role.snowflake_storage.arn
-  storage_allowed_locations = ["s3://${var.silver_bucket_name}/FreeBikeStatusData/"]
+##############################
+# 4. Create External Stage for Realtime Data
+##############################
+resource "snowflake_stage" "realtime_stage" {
+  name        = "MY_S3_REALTIME_STAGE"
+  database    = var.snowflake_database
+  schema      = var.snowflake_schema
+  url         = "s3://${var.silver_bucket_name}/FreeBikeStatusData/"
+  credentials = "AWS_KEY_ID='${var.aws_key}' AWS_SECRET_KEY='${var.aws_secret}'"
+  file_format = "TYPE = 'JSON'"
 }
+# file_format = "(TYPE = 'JSON')"
 
-# Snowflake Stage using Storage Integration
-resource "snowflake_stage" "s3" {
-  database            = snowflake_database.dwh.name
-  schema              = snowflake_schema.schema.name
-  name                = "S3_STAGE"
-  url                 = "s3://${var.silver_bucket_name}/FreeBikeStatusData/"
-  storage_integration = snowflake_storage_integration.s3.name
-  file_format         = "TYPE = JSON"
-}
-
-# Snowflake Pipe with Auto-Ingest
-resource "snowflake_pipe" "bike" {
-  database    = snowflake_database.dwh.name
-  schema      = snowflake_schema.schema.name
-  name        = "BIKE_PIPE"
-  auto_ingest = true
-  integration = snowflake_storage_integration.s3.name
+##############################
+# 5. Create a Snowpipe for Realtime Ingestion
+##############################
+resource "snowflake_pipe" "snowpipe" {
+  name     = "SNOWPIPE_DAILY"
+  database = var.snowflake_database
+  schema   = var.snowflake_schema
 
   copy_statement = <<EOF
-    COPY INTO ${snowflake_database.dwh.name}.${snowflake_schema.schema.name}.${snowflake_table.bike_table.name}
-    FROM @${snowflake_stage.s3.name}
-    FILE_FORMAT = (TYPE = 'JSON')
-  EOF
+COPY INTO ${var.snowflake_database}.${var.snowflake_schema}.${snowflake_table.source_data.name}
+FROM @${var.snowflake_database}.${var.snowflake_schema}.${snowflake_stage.realtime_stage.name}
+FILE_FORMAT = (FORMAT_NAME='${var.snowflake_database}.${var.snowflake_schema}.${snowflake_file_format.json_format.name}')
+MATCH_BY_COLUMN_NAME = "CASE_INSENSITIVE"
+ON_ERROR = 'CONTINUE'
+EOF
+
+  auto_ingest = true
+}
+
+##############################
+# 6. Create a Scheduled Task for Historical Data (Optional)
+##############################
+##############################
+# 6. Create a Scheduled Task for Historical Data (Optional)
+##############################
+resource "snowflake_task" "historical_copy" {
+  name      = "COPY_HISTORICAL_DATA"
+  database  = var.snowflake_database
+  schema    = var.snowflake_schema
+  warehouse = var.snowflake_warehouse
+
+  sql_statement = <<EOF
+COPY INTO ${var.snowflake_database}.${var.snowflake_schema}.${snowflake_table.source_data.name}
+FROM @${var.snowflake_database}.${var.snowflake_schema}.${snowflake_stage.historical_stage.name}
+FILE_FORMAT = (FORMAT_NAME='${var.snowflake_database}.${var.snowflake_schema}.${snowflake_file_format.json_format.name}')
+MATCH_BY_COLUMN_NAME = "CASE_INSENSITIVE"
+ON_ERROR = 'CONTINUE'
+EOF
+  started       = true
+  # Corrected schedule: Runs every hour at minute 0
+  schedule {
+    minutes = 5
+  }
+
+  # Ensure the task is started
+
 }

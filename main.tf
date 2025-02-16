@@ -21,10 +21,13 @@ module "step_function" {
   preprocess_lambda_arn = module.lambda.preprocess_lambda_arn
 }
 
-
 module "snowflake" {
-  source                   = "./modules/snowflake"
-  silver_bucket_name       = var.silver_bucket_name
-  snowflake_aws_account_id = var.snowflake_aws_account_id
-  snowflake_external_id    = var.snowflake_external_id
+  source              = "./modules/snowflake"
+  silver_bucket_name  = var.silver_bucket_name
+  aws_key             = var.aws_access_key
+  aws_secret          = var.aws_secret_key
+  snowflake_database  = "GOLDEN_DB"
+  snowflake_schema    = "GOLD"
+  snowflake_table     = "GOLD_TABLE"
+  snowflake_warehouse = "GOLD_WAREHOUSE"
 }
