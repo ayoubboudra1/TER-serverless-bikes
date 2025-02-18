@@ -1,4 +1,3 @@
-
 variable "silver_bucket_name" {
   description = "Name of the silver S3 bucket (where FreeBikeStatusData/ folder is located)"
   type        = string
@@ -34,5 +33,4 @@ variable "snowflake_table" {
 variable "snowflake_warehouse" {
   description = "Snowflake warehouse name"
   type        = string
-
 }

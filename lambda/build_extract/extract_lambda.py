@@ -56,10 +56,10 @@ def lambda_handler(event, context):
                         bike["type"] = "free_bike"
                         bike["time"] = timestamp
                         bike.update({
-                            "Country Code": obj.get("Country Code", ""),
-                            "Company Name": obj.get("Name", ""),
-                            "Location": obj.get("Location", ""),
-                            "System ID": obj.get("System ID", "")
+                            "country_code": obj.get("Country Code", ""),
+                            "company_name": obj.get("Name", ""),
+                            "location": obj.get("Location", ""),
+                            "system_id": obj.get("System ID", "")
                         })
                         free_bike_data.append(bike)
 

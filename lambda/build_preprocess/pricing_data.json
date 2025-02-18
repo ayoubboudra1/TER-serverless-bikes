@@ -1,0 +1,82 @@
+{
+    "5c469505-2249-4383-9f13-8e4fd1430b0d": {
+        "plan_id": "5c469505-2249-4383-9f13-8e4fd1430b0d",
+        "currency": "USD",
+        "price": 1.0,
+        "is_taxable": true,
+        "description": "$1.00 unlock fee, $0.39 per minute",
+        "per_min_pricing": 0.39,
+        "company_name": "Spin Washington DC",
+        "pricing_name": "Bird Pricing Plan"
+    },
+    "EBIKE_SINGLE_RIDE": {
+        "description": "$1.00 unlock fee, $0.15 per minute.",
+        "per_min_pricing": 0.15,
+        "plan_id": "EBIKE_SINGLE_RIDE",
+        "currency": "USD",
+        "price": 1.0,
+        "is_taxable": true,
+        "company_name": "Capital Bike Share",
+        "pricing_name": "EBIKE SINGLE RIDE"
+    },
+    "price_scooter": {
+        "plan_id": "price_scooter",
+        "currency": "USD",
+        "price": 1,
+        "is_taxable": true,
+        "description": "",
+        "per_min_pricing": 0.35,
+        "company_name": "Helbiz Washington DC",
+        "pricing_name": "Scooters price"
+    },
+    "price_bicycle": {
+        "plan_id": "price_bicycle",
+        "currency": "USD",
+        "price": 0.35,
+        "is_taxable": true,
+        "description": "",
+        "per_min_pricing": 1,
+        "company_name": "Helbiz Washington DC",
+        "pricing_name": "Bicycle price"
+    },
+    "price_moped": {
+        "plan_id": "price_moped",
+        "currency": "USD",
+        "price": 0,
+        "is_taxable": true,
+        "description": "",
+        "per_min_pricing": 0.37,
+        "company_name": "Helbiz Washington DC",
+        "pricing_name": "Moped price"
+    },
+    "205": {
+        "plan_id": "205",
+        "currency": "USD",
+        "price": 1.0,
+        "is_taxable": true,
+        "description": "The unlock fee is 1.000000 and we charge you 0.460000 for each every 1 minute",
+        "per_min_pricing": 0.46,
+        "company_name": "Veo Washington DC",
+        "pricing_name": "Price for vehicle"
+    },
+    "206": {
+        "plan_id": "206",
+        "currency": "USD",
+        "price": 1.0,
+        "is_taxable": true,
+        "description": "The unlock fee is 1.000000 and we charge you 0.460000 for each every 1 minute",
+        "per_min_pricing": 0.46,
+        "company_name": "Veo Washington DC",
+        "pricing_name": "Price for vehicle"
+    },
+    "LIME_DEFAULT_PRICING": {
+        "plan_id": "LIME_DEFAULT_PRICING",
+        "currency": "USD",
+        "price": 1.0,
+        "is_taxable": true,
+        "description": "The unlock fee is 1.000000 and we charge you 0.460000 for each every 1 minute",
+        "per_min_pricing": 0.46,
+        "company_name": "Lime Washington DC",
+        "pricing_name": "Price for vehicle"
+    }
+}

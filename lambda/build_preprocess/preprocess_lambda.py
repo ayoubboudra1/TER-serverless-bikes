@@ -41,6 +41,28 @@ def lambda_handler(event, context):
             "body": json.dumps(f"Error retrieving object {key} from Bronze bucket: {str(e)}")
         }
     
+    # Load pricing_data.json and vehicle_data.json from the local filesystem
+    try:
+        # Define paths to local files
+        pricing_data_path = os.path.join(os.getcwd(), "pricing_data.json")  # Path to pricing_data.json
+        vehicle_data_path = os.path.join(os.getcwd(), "vehicle_types_data.json")  # Path to vehicle_data.json
+        
+        # Load pricing_data.json
+        with open(pricing_data_path, 'r') as f:
+            pricing_data = json.load(f)
+        
+        # Load vehicle_data.json
+        with open(vehicle_data_path, 'r') as f:
+            vehicle_data = json.load(f)
+        
+        print(f"Loaded pricing data with {len(pricing_data)} entries.")
+        print(f"Loaded vehicle data with {len(vehicle_data)} entries.")
+    except Exception as e:
+        return {
+            "statusCode": 500,
+            "body": json.dumps(f"Error loading local JSON files: {str(e)}")
+        }
+    
     # Define mappings for vehicle_type_id and pricing_plan
     vehicle_type_mapping = {
         "Capital Bike Share": {
@@ -87,9 +109,18 @@ def lambda_handler(event, context):
             if company_name == "Veo Washington DC" and vehicle_type_id == "0":
                 record["vehicle_type_id"] = "4adb27fe-75e1-45ba-8e4b-b803a51e49ec"
         
+        # Add additional details from vehicle_data.json
+        if vehicle_type_id in vehicle_data:
+            record.update(vehicle_data[vehicle_type_id])
+        
         # Update pricing_plan if applicable
         if company_name in pricing_plan_mapping:
-            record["pricing_plan"] = pricing_plan_mapping[company_name]
+            plan_id = pricing_plan_mapping[company_name]
+            record["pricing_plan_id"] = plan_id
+            
+            # Add additional details from pricing_data.json
+        if record["pricing_plan_id"] in pricing_data:
+            record.update(pricing_data[plan_id])
         
         processed_data.append(record)
     

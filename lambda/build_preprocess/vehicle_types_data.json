@@ -1,0 +1,97 @@
+{
+  "bae2102b-56ba-42ba-9097-720e5990b4b2": {
+    "vehicle_type_id": "bae2102b-56ba-42ba-9097-720e5990b4b2",
+    "form_factor": "scooter",
+    "propulsion_type": "electric",
+    "max_range_meters": 24000.0,
+    "company_name": "Spin Washington DC"
+  },
+  "2ea3c8b2-ed07-4c53-b87e-638c08471309": {
+    "vehicle_type_id": "2ea3c8b2-ed07-4c53-b87e-638c08471309",
+    "form_factor": "bicycle",
+    "propulsion_type": "electric_assist",
+    "max_range_meters": 60000.0,
+    "company_name": "Spin Washington DC"
+  },
+  "cdd5c4a4-d9a8-4518-b6f4-050e76495b48": {
+    "vehicle_type_id": "cdd5c4a4-d9a8-4518-b6f4-050e76495b48",
+    "propulsion_type": "human",
+    "form_factor": "bicycle",
+    "company_name": "Capital Bike Share"
+  },
+  "f82fddf2-249f-4b77-b828-4e4e95b5decc": {
+    "vehicle_type_id": "f82fddf2-249f-4b77-b828-4e4e95b5decc",
+    "propulsion_type": "electric_assist",
+    "max_range_meters": 55844.24,
+    "form_factor": "bicycle",
+    "company_name": "Capital Bike Share"
+  },
+  "bicycle": {
+    "vehicle_type_id": "bicycle",
+    "form_factor": "bicycle",
+    "propulsion_type": "electric_assist",
+    "max_range_meters": 60000,
+    "company_name": "Helbiz Washington DC"
+  },
+  "scooter": {
+    "vehicle_type_id": "scooter",
+    "form_factor": "scooter",
+    "propulsion_type": "electric",
+    "max_range_meters": 45000,
+    "company_name": "Helbiz Washington DC"
+  },
+  "4517135a-0bb3-44c3-8083-9ebd9d35ac56": {
+    "vehicle_type_id": "4517135a-0bb3-44c3-8083-9ebd9d35ac56",
+    "form_factor": "scooter",
+    "propulsion_type": "electric",
+    "max_range_meters": 24140,
+    "company_name": "Lime Washington DC"
+  },
+  "aafee11d-db6c-4295-94d4-bd2649e8ab7e": {
+    "vehicle_type_id": "aafee11d-db6c-4295-94d4-bd2649e8ab7e",
+    "form_factor": "scooter",
+    "propulsion_type": "electric",
+    "max_range_meters": 40233,
+    "company_name": "Lime Washington DC"
+  },
+  "c8749d12-a39e-4894-aaf4-5deb1f5bff58": {
+    "vehicle_type_id": "c8749d12-a39e-4894-aaf4-5deb1f5bff58",
+    "form_factor": "bicycle",
+    "propulsion_type": "electric_assist",
+    "max_range_meters": 85000,
+    "company_name": "Lime Washington DC"
+  },
+  "8a4ae9df-2d0b-4e59-904b-1e9134a6dd40": {
+    "vehicle_type_id": "8a4ae9df-2d0b-4e59-904b-1e9134a6dd40",
+    "form_factor": "bicycle",
+    "propulsion_type": "human",
+    "company_name": "Lime Washington DC"
+  },
+  "4adb27fe-75e1-45ba-8e4b-b803a51e49ec": {
+    "vehicle_type_id": "4adb27fe-75e1-45ba-8e4b-b803a51e49ec",
+    "form_factor": "bicycle",
+    "propulsion_type": "human",
+    "company_name": "Veo Washington DC"
+  },
+  "5acc675c-4609-47c2-8a91-d31e7aa30e35": {
+    "vehicle_type_id": "5acc675c-4609-47c2-8a91-d31e7aa30e35",
+    "form_factor": "bicycle",
+    "propulsion_type": "electric_assist",
+    "max_range_meters": 45000,
+    "company_name": "Veo Washington DC"
+  },
+  "581b43e7-f587-4f7b-b123-590a941a18a9": {
+    "vehicle_type_id": "581b43e7-f587-4f7b-b123-590a941a18a9",
+    "form_factor": "scooter",
+    "propulsion_type": "electric",
+    "max_range_meters": 52800,
+    "company_name": "Veo Washington DC"
+  },
+  "bec72995-4fe7-4e51-a6dd-8bbb3caa80ed": {
+    "vehicle_type_id": "bec72995-4fe7-4e51-a6dd-8bbb3caa80ed",
+    "form_factor": "bicycle",
+    "propulsion_type": "electric",
+    "max_range_meters": 67000,
+    "company_name": "Veo Washington DC"
+  }
+}
