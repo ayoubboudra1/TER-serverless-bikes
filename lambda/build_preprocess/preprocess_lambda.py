@@ -120,7 +120,7 @@ def lambda_handler(event, context):
             
             # Add additional details from pricing_data.json
         if record["pricing_plan_id"] in pricing_data:
-            record.update(pricing_data[plan_id])
+            record.update(pricing_data[record["pricing_plan_id"]])
         
         processed_data.append(record)
     

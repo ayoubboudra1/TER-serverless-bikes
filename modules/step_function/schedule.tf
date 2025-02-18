@@ -3,8 +3,8 @@
 # Create an EventBridge rule to run every 5 minutes
 resource "aws_cloudwatch_event_rule" "step_function_schedule" {
   name                = "StepFunctionFiveMinuteSchedule"
-  description         = "Trigger the Step Function every 1 hour"
-  schedule_expression = "rate(1 hour)"
+  description         = "Trigger the Step Function every 5 minutes"
+  schedule_expression = "rate(5 minutes)"
 }
 
 # Create an IAM Role for EventBridge to assume in order to start the state machine execution

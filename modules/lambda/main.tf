@@ -12,7 +12,7 @@ resource "aws_lambda_function" "extract_lambda" {
     }
   }
 
-  timeout = 30 # ⏳ Ensuring Extract Lambda (Bronze) has a 30-sec timeout
+  timeout = 30
 }
 
 resource "aws_lambda_function" "preprocess_lambda" {
@@ -29,7 +29,7 @@ resource "aws_lambda_function" "preprocess_lambda" {
     }
   }
 
-  timeout = 30 # ⏳ Added timeout to 30 sec for Silver bucket function
+  timeout = 30
 }
 
 # Schedule the extract_lambda to run every 1 hour
