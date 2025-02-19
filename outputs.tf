@@ -18,53 +18,42 @@ output "preprocess_lambda_arn" {
   value       = module.lambda.preprocess_lambda_arn
 }
 
-output "historical_stage" {
-  description = "Snowflake external stage for historical data"
-  value       = module.snowflake.historical_stage
+output "snowflake_database" {
+  description = "Nom de la base de données Snowflake"
+  value       = module.snowflake.snowflake_database
 }
 
-output "realtime_stage" {
-  description = "Snowflake external stage for realtime data"
-  value       = module.snowflake.realtime_stage
+output "snowflake_schema" {
+  description = "Nom du schéma Snowflake"
+  value       = module.snowflake.snowflake_schema
 }
 
-# output "snowpipe" {
-#   description = "Snowflake pipe for realtime ingestion"
-#   value       = module.snowflake.snowpipe
-# }
-
-# Output for BIKE_DIMENSION Table
-output "bike_dimension_table" {
-  description = "Snowflake table for BIKE_DIMENSION"
-  value       = module.snowflake.bike_dimension_table
+output "snowflake_table_name" {
+  description = "Nom de la table Snowflake"
+  value       = module.snowflake.snowflake_table_name
 }
 
-# Output for LOCATION_DIMENSION Table
-output "location_dimension_table" {
-  description = "Snowflake table for LOCATION_DIMENSION"
-  value       = module.snowflake.location_dimension_table
+output "snowflake_stage_historical" {
+  description = "Nom du stage Snowflake pour les données historiques"
+  value       = module.snowflake.snowflake_stage_historical
 }
 
-# Output for COMPANY_DIMENSION Table
-output "company_dimension_table" {
-  description = "Snowflake table for COMPANY_DIMENSION"
-  value       = module.snowflake.company_dimension_table
+output "snowflake_stage_realtime" {
+  description = "Nom du stage Snowflake pour les données en temps réel"
+  value       = module.snowflake.snowflake_stage_realtime
 }
 
-# Output for PRICING_PLAN_DIMENSION Table
-output "pricing_plan_dimension_table" {
-  description = "Snowflake table for PRICING_PLAN_DIMENSION"
-  value       = module.snowflake.pricing_plan_dimension_table
+output "snowflake_file_format" {
+  description = "Nom du format de fichier JSON dans Snowflake"
+  value       = module.snowflake.snowflake_file_format
 }
 
-# Output for TIME_DIMENSION Table
-output "time_dimension_table" {
-  description = "Snowflake table for TIME_DIMENSION"
-  value       = module.snowflake.time_dimension_table
+output "snowflake_pipe" {
+  description = "Nom du pipe Snowflake pour l'ingestion automatique"
+  value       = module.snowflake.snowflake_pipe
 }
 
-# Output for BIKE_STATUS_FACT Table
-output "bike_status_fact_table" {
-  description = "Snowflake table for BIKE_STATUS_FACT"
-  value       = module.snowflake.bike_status_fact_table
+output "snowflake_task_historical_copy" {
+  description = "Nom de la tâche Snowflake pour la copie des données historiques"
+  value       = module.snowflake.snowflake_task_historical_copy
 }

@@ -39,7 +39,6 @@ resource "aws_sqs_queue_policy" "snowpipe_queue_policy" {
   })
 }
 
-# S3 Bucket Notification Configuration
 resource "aws_s3_bucket_notification" "bucket_notification" {
   bucket = aws_s3_bucket.silver.bucket
 
