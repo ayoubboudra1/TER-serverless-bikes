@@ -29,5 +29,5 @@ module "snowflake" {
   snowflake_database  = "GOLDEN_DB"
   snowflake_schema    = "GOLD"
   snowflake_table     = "GOLD_TABLE"
-  snowflake_warehouse = "GOLD_WAREHOUSE"
+  # snowflake_warehouse = "GOLD_WAREHOUSE"
 }

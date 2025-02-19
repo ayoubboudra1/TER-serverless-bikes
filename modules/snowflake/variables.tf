@@ -30,7 +30,7 @@ variable "snowflake_table" {
   default     = "FREEBIKE_STATUS_DATA"
 }
 
-variable "snowflake_warehouse" {
-  description = "Snowflake warehouse name"
-  type        = string
-}
+# variable "snowflake_warehouse" {
+#   description = "Snowflake warehouse name"
+#   type        = string
+# }

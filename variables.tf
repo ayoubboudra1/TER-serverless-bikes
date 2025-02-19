@@ -89,11 +89,11 @@ variable "snowflake_table" {
   default     = "SOURCE_DATA"
 }
 
-variable "snowflake_warehouse" {
-  description = "Snowflake warehouse for running tasks"
-  type        = string
-  default     = "MY_WH"
-}
+# variable "snowflake_warehouse" {
+#   description = "Snowflake warehouse for running tasks"
+#   type        = string
+#   default     = "MY_WH"
+# }
 
 variable "snowflake_role" {
   description = "Snowflake role for running tasks"

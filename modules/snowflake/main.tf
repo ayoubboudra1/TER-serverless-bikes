@@ -130,15 +130,15 @@ column {
 }
 
 
-resource "snowflake_stage" "historical_stage" {
-  name        = "MY_S3_STAGE"
-  database    = var.snowflake_database
-  schema      = var.snowflake_schema
-  url         = "s3://${var.silver_bucket_name}/FreeBikeStatusData/"
-  credentials = "AWS_KEY_ID='${var.aws_key}' AWS_SECRET_KEY='${var.aws_secret}'"
-  file_format = "TYPE = 'JSON'"
+# resource "snowflake_stage" "historical_stage" {
+#   name        = "MY_S3_STAGE"
+#   database    = var.snowflake_database
+#   schema      = var.snowflake_schema
+#   url         = "s3://${var.silver_bucket_name}/FreeBikeStatusData/"
+#   credentials = "AWS_KEY_ID='${var.aws_key}' AWS_SECRET_KEY='${var.aws_secret}'"
+#   file_format = "TYPE = 'JSON'"
 
-}
+# }
 
 resource "snowflake_stage" "realtime_stage" {
   name        = "MY_S3_REALTIME_STAGE"
@@ -165,24 +165,33 @@ EOF
 
   auto_ingest = true
 }
-
-resource "snowflake_task" "historical_copy" {
-  name      = "COPY_HISTORICAL_DATA"
+resource "snowflake_task" "realtime_copy" {
+  name      = "COPY_realtime_DATA"
   database  = var.snowflake_database
   schema    = var.snowflake_schema
-  warehouse = var.snowflake_warehouse
+
+  # Schedule: Run the COPY every hour, on the hour (UTC)
+   schedule {
+    minutes = 1
+  }
 
   sql_statement = <<EOF
 COPY INTO ${var.snowflake_database}.${var.snowflake_schema}.${snowflake_table.source_data.name}
-FROM @${var.snowflake_database}.${var.snowflake_schema}.${snowflake_stage.historical_stage.name}
-FILE_FORMAT = (FORMAT_NAME='${var.snowflake_database}.${var.snowflake_schema}.${snowflake_file_format.json_format.name}')
-MATCH_BY_COLUMN_NAME = "CASE_INSENSITIVE"
-ON_ERROR = 'CONTINUE'
+  FROM @${var.snowflake_database}.${var.snowflake_schema}.${snowflake_stage.realtime_stage.name}
+  FILE_FORMAT = (FORMAT_NAME='${var.snowflake_database}.${var.snowflake_schema}.${snowflake_file_format.json_format.name}')
+  MATCH_BY_COLUMN_NAME = "CASE_INSENSITIVE"
+  ON_ERROR = 'CONTINUE'
 EOF
-  
+
+  # Set to true so the task immediately starts/resumes on creation
   started = true
+}
 
 
-
-
+resource "snowflake_database" "dwh" {
+  name = var.snowflake_database
+}
+resource "snowflake_schema" "schema" {
+  database = snowflake_database.dwh.name
+  name     = var.snowflake_schema
 }

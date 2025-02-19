@@ -15,10 +15,10 @@ output "snowflake_table_name" {
   value       = snowflake_table.source_data.name
 }
 
-output "snowflake_stage_historical" {
-  description = "Nom du stage Snowflake pour les données historiques"
-  value       = snowflake_stage.historical_stage.name
-}
+# output "snowflake_stage_historical" {
+#   description = "Nom du stage Snowflake pour les données historiques"
+#   value       = snowflake_stage.historical_stage.name
+# }
 
 output "snowflake_stage_realtime" {
   description = "Nom du stage Snowflake pour les données en temps réel"
@@ -35,7 +35,7 @@ output "snowflake_pipe" {
   value       = snowflake_pipe.snowpipe.name
 }
 
-output "snowflake_task_historical_copy" {
+output "snowflake_task_realtime_copy" {
   description = "Nom de la tâche Snowflake pour la copie des données historiques"
-  value       = snowflake_task.historical_copy.name
+  value       = snowflake_task.realtime_copy.name
 }

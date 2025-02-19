@@ -57,7 +57,7 @@ resource "null_resource" "initial_execution" {
   }
 
   provisioner "local-exec" {
-    # For Windows (PowerShell), you can use:
-    command = "powershell -Command \"aws stepfunctions start-execution --state-machine-arn ${aws_sfn_state_machine.data_pipeline.arn} --name initial-$(Get-Date -UFormat '%s')\""
+  command = "aws stepfunctions start-execution --state-machine-arn ${aws_sfn_state_machine.data_pipeline.arn} --name initial-$(date +%s)"
   }
+
 }
