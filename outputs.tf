@@ -68,3 +68,9 @@ output "bike_status_fact_table" {
   description = "Snowflake table for BIKE_STATUS_FACT"
   value       = module.snowflake.bike_status_fact_table
 }
+output "snowflake_database" {
+  value = module.snowflake.snowflake_database
+}
+output "snowflake_schema" {
+  value = module.snowflake.snowflake_schema
+}

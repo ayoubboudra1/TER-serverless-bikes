@@ -51,4 +51,10 @@ output "bike_status_fact_table" {
   description = "Snowflake table for BIKE_STATUS_FACT"
   value       = snowflake_table.bike_status_fact.name
 }
+output "snowflake_database" {
+  value = snowflake_database.dwh.name
+}
+output "snowflake_schema" {
+  value = snowflake_schema.schema.name
+}
 

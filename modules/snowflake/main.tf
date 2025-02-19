@@ -15,6 +15,14 @@ resource "snowflake_file_format" "json_format" {
   format_type       = "JSON"
   strip_outer_array = true
 }
+resource "snowflake_database" "dwh" {
+  name = "BIKE_DWH"
+}
+
+resource "snowflake_schema" "schema" {
+  database = snowflake_database.dwh.name
+  name     = "BIKE_SCHEMA"
+}
 
 # Dimension Tables
 resource "snowflake_table" "bike_dimension" {
