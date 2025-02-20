@@ -30,10 +30,10 @@ output "snowflake_file_format" {
   value       = snowflake_file_format.json_format.name
 }
 
-output "snowflake_pipe" {
-  description = "Nom du pipe Snowflake pour l'ingestion automatique"
-  value       = snowflake_pipe.snowpipe.name
-}
+# output "snowflake_pipe" {
+#   description = "Nom du pipe Snowflake pour l'ingestion automatique"
+#   value       = snowflake_pipe.snowpipe.name
+# }
 
 output "snowflake_task_realtime_copy" {
   description = "Nom de la tâche Snowflake pour la copie des données historiques"

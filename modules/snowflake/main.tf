@@ -150,29 +150,29 @@ resource "snowflake_stage" "realtime_stage" {
 }
 # file_format = "(TYPE = 'JSON')"
 
-resource "snowflake_pipe" "snowpipe" {
-  name     = "SNOWPIPE_DAILY"
-  database = var.snowflake_database
-  schema   = var.snowflake_schema
+# resource "snowflake_pipe" "snowpipe" {
+#   name     = "SNOWPIPE_DAILY"
+#   database = var.snowflake_database
+#   schema   = var.snowflake_schema
 
-  copy_statement = <<EOF
-COPY INTO ${var.snowflake_database}.${var.snowflake_schema}.${snowflake_table.source_data.name}
-FROM @${var.snowflake_database}.${var.snowflake_schema}.${snowflake_stage.realtime_stage.name}
-FILE_FORMAT = (FORMAT_NAME='${var.snowflake_database}.${var.snowflake_schema}.${snowflake_file_format.json_format.name}')
-MATCH_BY_COLUMN_NAME = "CASE_INSENSITIVE"
-ON_ERROR = 'CONTINUE'
-EOF
+#   copy_statement = <<EOF
+# COPY INTO ${var.snowflake_database}.${var.snowflake_schema}.${snowflake_table.source_data.name}
+# FROM @${var.snowflake_database}.${var.snowflake_schema}.${snowflake_stage.realtime_stage.name}
+# FILE_FORMAT = (FORMAT_NAME='${var.snowflake_database}.${var.snowflake_schema}.${snowflake_file_format.json_format.name}')
+# MATCH_BY_COLUMN_NAME = "CASE_INSENSITIVE"
+# ON_ERROR = 'CONTINUE'
+# EOF
 
-  auto_ingest = true
-}
+#   auto_ingest = true
+# }
 resource "snowflake_task" "realtime_copy" {
   name      = "COPY_realtime_DATA"
   database  = var.snowflake_database
   schema    = var.snowflake_schema
 
-  # Schedule: Run the COPY every hour, on the hour (UTC)
+  # Schedule: Run the COPY every ** minutes
    schedule {
-    minutes = 1
+    minutes = 60
   }
 
   sql_statement = <<EOF
