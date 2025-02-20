@@ -172,7 +172,7 @@ resource "snowflake_task" "realtime_copy" {
 
   # Schedule: Run the COPY every ** minutes
    schedule {
-    minutes = 60
+    minutes = 5
   }
 
   sql_statement = <<EOF
