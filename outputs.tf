@@ -57,3 +57,14 @@ output "snowflake_task_realtime_copy" {
   description = "Nom de la tâche Snowflake pour la copie des données historiques"
   value       = module.snowflake.snowflake_task_realtime_copy
 }
+
+output "lambda_function_names" {
+  value        = ["extract_lambda", "preprocess_lambda"] 
+}
+
+output "s3_bucket_names" {
+  value        = ["my-bronze-data-bucket-ter-serverless", "my-silver-data-bucket-ter-serverless"]
+}
+output "step_function_arn" {
+  value = module.step_function.state_machine_arn
+}

@@ -111,3 +111,15 @@ variable "snowflake_organization_name" {
   description = "Snowflake organization name"
   type        = string
 }
+
+variable "lambda_function_names" {
+  description = "Names of Lambda functions to monitor"
+  type        = list(string)
+  default = ["extract_lambda", "preprocess_lambda"] 
+}
+
+variable "s3_bucket_names" {
+  description = "Names of S3 buckets to monitor"
+  type        = list(string)
+  default = ["my-bronze-data-bucket-ter-serverless", "my-silver-data-bucket-ter-serverless"]
+}
