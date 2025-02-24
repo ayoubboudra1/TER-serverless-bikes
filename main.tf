@@ -29,5 +29,14 @@ module "snowflake" {
   snowflake_database  = "GOLDEN_DB"
   snowflake_schema    = "GOLD"
   snowflake_table     = "GOLD_TABLE"
-  snowflake_warehouse = "GOLD_WAREHOUSE"
+  # snowflake_warehouse = "GOLD_WAREHOUSE"
+}
+
+module "cloudwatch" {
+  source             = "./modules/cloudwatch"
+  step_function_arn  = module.step_function.state_machine_arn
+  lambda_function_names = module.cloudwatch.lambda_function_names
+  s3_bucket_names    = module.cloudwatch.s3_bucket_names
+  alarm_actions = [aws_sns_topic.alarm_notifications.arn]
+  s3_size_threshold  = 3000000000 # 3 GB 
 }

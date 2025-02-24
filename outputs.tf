@@ -33,10 +33,10 @@ output "snowflake_table_name" {
   value       = module.snowflake.snowflake_table_name
 }
 
-output "snowflake_stage_historical" {
-  description = "Nom du stage Snowflake pour les données historiques"
-  value       = module.snowflake.snowflake_stage_historical
-}
+# output "snowflake_stage_historical" {
+#   description = "Nom du stage Snowflake pour les données historiques"
+#   value       = module.snowflake.snowflake_stage_realtime
+# }
 
 output "snowflake_stage_realtime" {
   description = "Nom du stage Snowflake pour les données en temps réel"
@@ -48,12 +48,23 @@ output "snowflake_file_format" {
   value       = module.snowflake.snowflake_file_format
 }
 
-output "snowflake_pipe" {
-  description = "Nom du pipe Snowflake pour l'ingestion automatique"
-  value       = module.snowflake.snowflake_pipe
+# output "snowflake_pipe" {
+#   description = "Nom du pipe Snowflake pour l'ingestion automatique"
+#   value       = module.snowflake.snowflake_pipe
+# }
+
+output "snowflake_task_realtime_copy" {
+  description = "Nom de la tâche Snowflake pour la copie des données historiques"
+  value       = module.snowflake.snowflake_task_realtime_copy
 }
 
-output "snowflake_task_historical_copy" {
-  description = "Nom de la tâche Snowflake pour la copie des données historiques"
-  value       = module.snowflake.snowflake_task_historical_copy
+output "lambda_function_names" {
+  value        = ["extract_lambda", "preprocess_lambda"] 
+}
+
+output "s3_bucket_names" {
+  value        = ["my-bronze-data-bucket-ter-serverless", "my-silver-data-bucket-ter-serverless"]
+}
+output "step_function_arn" {
+  value = module.step_function.state_machine_arn
 }

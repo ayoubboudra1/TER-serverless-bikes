@@ -3,8 +3,8 @@
 # Create an EventBridge rule to run every 5 minutes
 resource "aws_cloudwatch_event_rule" "step_function_schedule" {
   name                = "StepFunctionFiveMinuteSchedule"
-  description         = "Trigger the Step Function every 5 minutes"
-  schedule_expression = "rate(5 minutes)"
+  description         = "Trigger the Step Function every 30 minutes"
+  schedule_expression = "rate(30 minutes)"
 }
 
 # Create an IAM Role for EventBridge to assume in order to start the state machine execution
@@ -57,7 +57,7 @@ resource "null_resource" "initial_execution" {
   }
 
   provisioner "local-exec" {
-    # For Windows (PowerShell), you can use:
-    command = "powershell -Command \"aws stepfunctions start-execution --state-machine-arn ${aws_sfn_state_machine.data_pipeline.arn} --name initial-$(Get-Date -UFormat '%s')\""
+  command = "aws stepfunctions start-execution --state-machine-arn ${aws_sfn_state_machine.data_pipeline.arn} --name initial-$(date +%s)"
   }
+
 }
